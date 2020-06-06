@@ -1,63 +1,69 @@
 class Character
-	
-	def creation()
-		race["elf", "human", "dwarf"]
-		lifepath ["guard", "soldier", "knight"]
-		wpn["sword", "axe", "spear"]
-		armr["light", "medium", "heavy"]
 
-		puts "what is your name hero?"
-		hero_name = $stdin.gets.chomp
+  RACE     = { :elf   => { hit_points:  5,
+                           armor_class: 1,
+                           strength: 20 },
+               :human => { hit_points: 5,
+                           armor_class: 1,
+                           strength: 20 },
+               :dwarf => { hit_points: 5,
+                           armor_class: 1,
+                           strength: 20 } }
 
-		puts "Welcome #{hero_name}, what is you race?"
-		print race
-		hero_race = $stdin.gets.chomp
-		if hero_race == "elf"
-			#set stats
-		elsif hero_race == "human"
-			#set stats
-		elsif hero_race == "dwarf"
-			#set stats
-		else 
-			#error
-		end
 
-		puts "Great #{hero_name} of the #{hero_race} choose your weapon."
-		print wpn[]
-		hero_wpn = $stdin.gets.chomp
-		if hero_wpn == "sword" || "axe" || "spear"
-			#set her_wpn	
-		else
-			#error
-		end
+  LIFEPATH = ["guard", "soldier", "knight"].freeze
+  WEAPON   = ["sword", "axe", "spear"].freeze
+  ARMOR    = ["light", "medium", "heavy"].freeze
 
-		puts "Great #{hero_name}, what was your life path"
-		print lifepath[]
-		hero_lifepath = $stdin.gets.chomp
-		if hero_lifepath == "guard" || "soilder" || "knight"
-			#set hero_lifepath
-		else
-			#error
-		end
+  attr_accessor :name, :race, :lifepath, :weapon, :armor
 
-		puts "Great #{hero_name}, choose your armor."
-		print armr[]
-		hero_armr = $stdin.gets.chomp
-		if hero_armr == "light" || "medium" || "heavy"
-			#set hero_armr
-		else
-			#error
-		end
+  def self.create()
+    puts "what is your name hero?"
+    hero_name = $stdin.gets.chomp
 
-		hero[hero_name, hero_race, hero_lifepath, hero_wpn, hero_armr]
-	end
+    print "Welcome #{hero_name}, what is you race? [#{RACE.keys.join(', ')}]"
+    race = $stdin.gets.chomp
+    # Check to see if it's a real race.
+    if RACE.include?(race)
+      character = Character.new(race.to_sym)
+      character.name = hero_name
+    else
+      print "Please pick a valid race. [#{RACE.keys.join(', ')}}"
+    end
 
-	def monster()
-		race["goblin", "orc", "kobold"]
-		wpn["sword", "axe", "spear"]
-		armr["light", "medium", "heavy"]
+    print "Great #{character.name}, what was your life path? [#{LIFEPATH.join(',')}]"
+    lifepath = $stdin.gets.chomp
+    if LIEFPATH.include?(lifepath)
+      character.lifepath = lifepath
+    else
+      #error
+    end
 
-		#code for rolling a random monster
+    print "Great #{hero_name}, choose your armor. [#{ARMOR.join(', ')}]"
+    armor = $stdin.gets.chomp
+    if ARMOR.include?(armor)
+      character.armor = armor
+    else
+      #error
+    end
 
-		monster[monster_race, monster_wpn, monster_armr]
-	end
+    return character
+    # hero[hero_name, hero_race, hero_lifepath, hero_wpn, hero_armr]
+  end
+
+  def initialize(race)
+    @race        = race
+    @strength    = Character::RACE[race][:strength]
+    @hit_points  = Character::RACE[race][:hit_points]
+    @armor_class = Character::RACE[race][:armor_class]
+  end
+
+  def monster()
+    race["goblin", "orc", "kobold"]
+    wpn["sword", "axe", "spear"]
+    armr["light", "medium", "heavy"]
+
+    #code for rolling a random monster
+
+    monster[monster_race, monster_wpn, monster_armr]
+  end
