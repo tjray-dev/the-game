@@ -9,4 +9,10 @@ class Engine
 		#create a monster
 		#display monster stats
 		#combat loop until player || enemy hp == 0
-	end      
+	end
+
+	def main
+	  @character = Character.create
+	  @monster   = Monster.create
+	 end
+end
